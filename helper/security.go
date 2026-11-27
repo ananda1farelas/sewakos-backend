@@ -2,6 +2,7 @@ package helper
 
 import (
 	"crypto/rand"
+	"crypto/sha256"
 	"encoding/hex"
 
 	"golang.org/x/crypto/bcrypt"
@@ -25,6 +26,6 @@ func GenerateRandomToken() (string, error) {
 }
 
 func HashToken(token string) string {
-	h, _ := bcrypt.GenerateFromPassword([]byte(token), bcrypt.MinCost)
-	return string(h)
+	sum := sha256.Sum256([]byte(token))
+	return hex.EncodeToString(sum[:])
 }
